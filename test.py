@@ -1,24 +1,28 @@
-from selenium import webdriver
-from pages.home_page import HomePage
 from pages.contact_page import ContactPage
+from pages.home_page import HomePage
 from pages.login_page import LoginPage
 
 
+def test_home_page_loads(driver):
+    home_page = HomePage(driver)
+    home_page.open()
 
-driver = webdriver.Chrome()
-driver.maximize_window()
+    assert home_page.is_loaded()
+    assert home_page.has_contact_link()
 
-home = HomePage(driver)
-home.open()
-home.scroll_down_and_back()
-home.go_to_contact()
 
-contact = ContactPage(driver)
-contact.fill_form()
+def test_contact_page_is_reachable(driver):
+    home_page = HomePage(driver)
+    home_page.open()
+    home_page.go_to_contact()
 
-login = LoginPage(driver)
-login.open()
-login.login("AE-0112", "cAZ0P*Os")
+    contact_page = ContactPage(driver)
+    assert contact_page.is_loaded()
 
-input("Press Enter to close browser...")
-driver.quit()
+
+def test_login_page_is_available(driver):
+    login_page = LoginPage(driver)
+    login_page.open()
+
+    assert login_page.is_loaded()
+    assert login_page.username_field_is_visible()
