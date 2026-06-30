@@ -1,17 +1,13 @@
-name: Selenium CI
+name: Scheduled automation run
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   schedule:
     - cron: '0 9 * * *'
     - cron: '0 17 * * *'
   workflow_dispatch:
 
 jobs:
-  test:
+  run-automation:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,8 +30,8 @@ jobs:
         with:
           chrome-version: stable
 
-      - name: Run pytest
+      - name: Run automation
         env:
           CI: true
           CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
-        run: pytest --html=artifacts/report.html --self-contained-html
+        run: pytest -q
