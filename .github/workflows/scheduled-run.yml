@@ -1,4 +1,4 @@
-name: Scheduled automation run
+name: Daily automation run
 
 on:
   schedule:
